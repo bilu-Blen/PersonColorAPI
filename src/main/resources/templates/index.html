@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <p>No JSON response</p>
+    <button onclick="postExample();">Color Added</button>
+    <p>JSON response</p>
+    <button onclick="postExampleWithResponse()">Add color</button>
+
+
+    <script type="application/javascript">
+        function postExample() {
+            //create a new XMLHttpRequest Object
+            var obj = new XMLHttpRequest();
+            //indicate the request time you will make (HTTP method and URL)
+            obj.open("POST", "http://localhost:8080/addcolor");
+
+            //indicate the content that you sending
+            obj.setRequestHeader("Content-Type", "application/json");
+
+            //create an object with the data
+            var color = JSON.stringify({"colorName":"purple"});
+
+            //send the data
+            obj.send(color);
+            document.write("All done. Check now.");
+        }
+
+        function postExampleWithResponse() {
+            var obj = new XMLHttpRequest();
+            obj.open("POST", "http://localhost:8080/addcolor");
+            obj.setRequestHeader("Content-Type", "application/json");
+            var color = JSON.stringify({"colorName" : "orange"});
+            obj.send(color);
+            obj.onreadystatechange = function checkAPIState() {
+                console.log("Checking status");
+                if(this.status==200 && this.readyState==4){
+                    document.write(obj.response);
+                }
+                else{
+                    console.log(this.status);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
